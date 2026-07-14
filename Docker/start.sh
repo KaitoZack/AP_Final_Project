@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -e
 
 PORT_TO_USE=${PORT:-80}

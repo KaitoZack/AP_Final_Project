@@ -97,4 +97,8 @@ window.Echo.channel('students').listen('.student.created', (student) => {
 
     tableBody.querySelector('[data-empty-state]')?.remove();
     tableBody.insertAdjacentHTML('afterbegin', buildStudentRow(student));
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> de13c67fbb452166fe2f6808c412753b92ed4da8

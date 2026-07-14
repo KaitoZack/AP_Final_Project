@@ -75,9 +75,15 @@
                                 </th>
                             </tr>
                         </thead>
+<<<<<<< HEAD
                         <tbody id="student-table" class="divide-y divide-gray-100 dark:divide-gray-700/80">
                             @forelse ($students as $student)
                                 <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors">
+=======
+                        <tbody class="divide-y divide-gray-100 dark:divide-gray-700/80" id="student-table">
+                            @forelse ($students as $student)
+                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors" data-student-id="{{ $student->id }}">
+>>>>>>> de13c67fbb452166fe2f6808c412753b92ed4da8
                                     <td class="px-6 py-4 text-gray-900 dark:text-gray-100 font-medium whitespace-nowrap">
                                         {{ $student->first_name }}
                                     </td>
@@ -127,7 +133,11 @@
                                     </td>
                                 </tr>
                             @empty
+<<<<<<< HEAD
                                 <tr>
+=======
+                                <tr data-empty-state>
+>>>>>>> de13c67fbb452166fe2f6808c412753b92ed4da8
                                     <td colspan="7" class="px-6 py-16 text-center">
                                         <div class="mx-auto max-w-sm">
                                             <p class="text-base font-medium text-gray-900 dark:text-gray-100">
@@ -158,4 +168,8 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </x-app-layout>
+=======
+</x-app-layout>
+>>>>>>> de13c67fbb452166fe2f6808c412753b92ed4da8

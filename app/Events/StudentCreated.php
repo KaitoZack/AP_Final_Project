@@ -56,4 +56,8 @@ class StudentCreated implements ShouldBroadcastNow
             'destroy_url' => route('students.destroy', $this->student),
         ];
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> de13c67fbb452166fe2f6808c412753b92ed4da8

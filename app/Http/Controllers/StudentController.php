@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StudentCreated;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
@@ -37,11 +38,15 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request): RedirectResponse
     {
-        Student::create($request->validated());
+      
+
+        $student = Student::create($request->validated());
+
+        broadcast(new StudentCreated(($student)))->toOthers();
 
         return redirect()
             ->route('students.index')
-            ->with('status', 'student-created');
+            ->with('success', 'Student added successfully');
     }
 
     /**

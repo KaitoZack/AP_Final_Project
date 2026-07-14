@@ -5,13 +5,11 @@ namespace App\Events;
 use App\Models\Student;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StudentCreated implements ShouldBroadcast
+class StudentCreated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,10 +29,18 @@ class StudentCreated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('students')
+            new Channel('students'),
         ];
     }
 
+    public function broadcastAs(): string
+    {
+        return 'student.created';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
     public function broadcastWith(): array
     {
         return [
@@ -42,8 +48,12 @@ class StudentCreated implements ShouldBroadcast
             'student_number' => $this->student->student_number,
             'first_name' => $this->student->first_name,
             'last_name' => $this->student->last_name,
-            'course' => $this->student->course, 
+            'email' => $this->student->email,
+            'course' => $this->student->course,
             'year_level' => $this->student->year_level,
+            'year_level_label' => $this->student->year_level_label,
+            'edit_url' => route('students.edit', $this->student),
+            'destroy_url' => route('students.destroy', $this->student),
         ];
     }
 }

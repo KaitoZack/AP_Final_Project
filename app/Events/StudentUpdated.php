@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Events;
+
+use App\Models\Student;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class StudentUpdated implements ShouldBroadcastNow
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public function __construct(public Student $student) {}
+
+    public function broadcastOn(): array
+    {
+        return [new Channel('students')];
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'student.updated';
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'id' => $this->student->id,
+            'student_number' => $this->student->student_number,
+            'first_name' => $this->student->first_name,
+            'last_name' => $this->student->last_name,
+            'email' => $this->student->email,
+            'course' => $this->student->course,
+            'year_level' => $this->student->year_level,
+            'year_level_label' => $this->student->year_level_label,
+            'edit_url' => route('students.edit', $this->student),
+            'destroy_url' => route('students.destroy', $this->student),
+        ];
+    }
+}

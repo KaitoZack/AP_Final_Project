@@ -91,6 +91,7 @@ const buildStudentRow = (student) => {
 
 const studentsChannel = window.Echo.channel('students');
 
+// 1. Listen for new student creations
 studentsChannel.listen('.student.created', (student) => {
     const tableBody = document.getElementById('student-table');
 
@@ -110,6 +111,7 @@ studentsChannel.listen('.student.created', (student) => {
     tableBody.insertAdjacentHTML('afterbegin', buildStudentRow(student));
 });
 
+// 2. Listen for existing student updates
 studentsChannel.listen('.student.updated', (student) => {
     const tableBody = document.getElementById('student-table');
     const existingRow = tableBody?.querySelector(`[data-student-id="${student.id}"]`);
@@ -131,6 +133,7 @@ studentsChannel.listen('.student.updated', (student) => {
     tableBody.insertAdjacentHTML('afterbegin', buildStudentRow(student));
 });
 
+// 3. Listen for student deletions
 studentsChannel.listen('.student.deleted', (student) => {
     const tableBody = document.getElementById('student-table');
     const existingRow = tableBody?.querySelector(`[data-student-id="${student.id}"]`);

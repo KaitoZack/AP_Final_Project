@@ -34,6 +34,29 @@ const showStudentAlert = (message) => {
     `;
 };
 
+// Helper function to dynamically calculate and update the total student count text
+const updateStudentCount = (change) => {
+    const countElement = document.getElementById('student-count');
+    if (!countElement) return;
+
+    // Retrieve current total, apply the change, and prevent negative counts
+    let total = parseInt(countElement.getAttribute('data-total') ?? '0', 10);
+    total = Math.max(0, total + change);
+    countElement.setAttribute('data-total', total);
+
+    // Format the text using the same pluralization rules as Laravel's trans_choice
+    let text = '';
+    if (total === 0) {
+        text = 'No students yet';
+    } else if (total === 1) {
+        text = '1 student';
+    } else {
+        text = `${total} students`;
+    }
+
+    countElement.textContent = text;
+};
+
 const buildStudentRow = (student) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
 
@@ -109,6 +132,9 @@ studentsChannel.listen('.student.created', (student) => {
 
     tableBody.querySelector('[data-empty-state]')?.remove();
     tableBody.insertAdjacentHTML('afterbegin', buildStudentRow(student));
+
+    // Increment count
+    updateStudentCount(1);
 });
 
 // 2. Listen for existing student updates
@@ -141,6 +167,9 @@ studentsChannel.listen('.student.deleted', (student) => {
     showStudentAlert(
         `Student deleted: ${escapeHtml(student.first_name)} ${escapeHtml(student.last_name)}`,
     );
+
+    // Decrement count (Runs regardless of whether the row is visible on this specific pagination page)
+    updateStudentCount(-1);
 
     if (!existingRow) {
         return;
